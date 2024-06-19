@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
 import './Login.css';
 
 function Login({ toggleForm }) {
@@ -19,7 +18,7 @@ function Login({ toggleForm }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:5000/login', {  // URL ของเซิร์ฟเวอร์ Flask
+        fetch('http://localhost:5000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,8 +38,8 @@ function Login({ toggleForm }) {
     };
 
     return (
-        <div className="login-container">
-            <form onSubmit={handleSubmit} className="login-form">
+        <div className="auth-container">
+            <form onSubmit={handleSubmit} className="auth-form">
                 <h2>Log in</h2>
                 <div>
                     <label htmlFor="email">Email</label>
@@ -65,7 +64,7 @@ function Login({ toggleForm }) {
                     />
                 </div>
                 <button type="submit">Log in</button>
-                <p>Don't have an account? <Link to="#" onClick={toggleForm}>Sign up</Link></p>
+                <p>Don't have an account? <button type="button" onClick={toggleForm}>Sign up</button></p>
             </form>
         </div>
     );
