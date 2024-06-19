@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
 import './Signup.css';
 
 function Signup({ toggleForm }) {
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
   });
 
   const handleChange = (e) => {
@@ -20,46 +17,30 @@ function Signup({ toggleForm }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
 
-    fetch('http://localhost:5000/register', {  // URL ของเซิร์ฟเวอร์ Flask
+    fetch('http://localhost:5000/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: formData.username,
         email: formData.email,
         password: formData.password
       })
     })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   return (
-    <div className="register-container">
-      <form onSubmit={handleSubmit} className="register-form">
+    <div className="auth-container">
+      <form onSubmit={handleSubmit} className="auth-form">
         <h2>Sign up</h2>
-        <div>
-          <label htmlFor="username">User Name</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -82,19 +63,8 @@ function Signup({ toggleForm }) {
             required
           />
         </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
         <button type="submit">Sign up</button>
-        <p>Already have an account? <Link to="#" onClick={toggleForm}>Log in</Link></p>
+        <p>Already have an account? <button type="button" onClick={toggleForm}>Log in</button></p>
       </form>
     </div>
   );
