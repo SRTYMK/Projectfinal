@@ -7,7 +7,17 @@ import Signup from './components/Signup';
 import './App.css';
 
 function App() {
-  const [isRegistering, setIsRegistering] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const openAuthPopup = () => {
+    setShowPopup(true);
+    setIsRegistering(false);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
@@ -16,11 +26,18 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <Navbar openAuthPopup={openAuthPopup} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth" element={isRegistering ? <Login toggleForm={toggleForm} /> : <Signup toggleForm={toggleForm} />} />
         </Routes>
+        {showPopup && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <button className="close-popup" onClick={closePopup}>×</button>
+              {isRegistering ? <Signup toggleForm={toggleForm} /> : <Login toggleForm={toggleForm} />}
+            </div>
+          </div>
+        )}
       </div>
     </Router>
   );
